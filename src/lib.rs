@@ -2,6 +2,7 @@ mod utils;
 
 use std::fmt;
 use wasm_bindgen::prelude::*;
+use rand::Rng;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -105,10 +106,11 @@ impl Universe {
     pub fn new() -> Universe {
         let width = 64;
         let height = 64;
-
+        let mut rng = rand::thread_rng();
+        
         let cells = (0..width * height)
             .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+                if rng.gen::<bool>() {
                     Cell::Alive
                 } else {
                     Cell::Dead
