@@ -69,7 +69,7 @@ const drawCells = () => {
 
 let last_tick_ts;
 
-const renderLoop = () => {
+const renderLoop = (ts) => {
 
     if (!last_tick_ts || ts - last_tick_ts >= 50) {
         universe.tick();
