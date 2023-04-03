@@ -18,6 +18,24 @@ canvas.width = (CELL_SIZE + 1) * width + 1;
 
 const ctx = canvas.getContext('2d');
 
+window.stopResumeAnimation = () => {
+    if (animation_request_id) {
+        cancelAnimationFrame(animation_request_id);
+        animation_request_id = null;
+    } else {
+        nextAnimation()
+    }
+}
+
+window.oneStep = () => {
+    one_step = true
+    nextAnimation()
+}
+
+window.nextAnimation = () => {
+    animation_request_id = requestAnimationFrame(renderLoop);
+}
+
 const drawGrid = () => {
     ctx.beginPath();
     ctx.strokeStyle = GRID_COLOR;
@@ -50,9 +68,9 @@ const drawCells = () => {
     for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
             const idx = getIndex(row, col)
-            const byte_idx = Math.floor( idx/ 8);
+            const byte_idx = Math.floor(idx / 8);
             const bit_idx = idx % 8;
-            
+
             ctx.fillStyle = cells[byte_idx] & (1 << bit_idx)
                 ? ALIVE_COLOR
                 : DEAD_COLOR;
@@ -70,20 +88,25 @@ const drawCells = () => {
 };
 
 let last_tick_ts;
+let animation_request_id;
+let one_step = false;
 
 const renderLoop = (ts) => {
 
     if (!last_tick_ts || ts - last_tick_ts >= 50) {
         universe.tick();
-        drawGrid();
         drawCells();
         last_tick_ts = ts;
     }
 
-    requestAnimationFrame(renderLoop);
+    if (one_step) {
+        one_step = false
+        animation_request_id  = null
+    } else {
+        nextAnimation()
+    }
 };
 
 
 drawGrid();
-drawCells();
-requestAnimationFrame(renderLoop);
+stopResumeAnimation()

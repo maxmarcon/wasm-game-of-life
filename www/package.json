@@ -7,12 +7,12 @@
     "create-wasm-app": ".bin/create-wasm-app.js"
   },
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server"
+    "build": "webpack && tailwindcss -i ./app.css -o ./dist/app.css --minify",
+    "start": "concurrently --kill-others \"tailwindcss -i ./app.css -o ./dist/app.css --watch\" webpack-dev-server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rustwasm/create-wasm-app.git"
+    "url": "git+https://github.com/maxmarcon/wasm-game-of-life.git"
   },
   "keywords": [
     "webassembly",
@@ -27,9 +27,12 @@
   },
   "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
   "dependencies": {
+    "daisyui": "^2.51.5",
+    "tailwindcss": "^3.3.1",
     "wasm-game-of-life": "file:../pkg"
   },
   "devDependencies": {
+    "concurrently": "^8.0.1",
     "copy-webpack-plugin": "^5.0.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.1.0",

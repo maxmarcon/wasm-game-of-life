@@ -16,11 +16,6 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-    alert(&format!("Hello, {}!", name));
-}
-
-#[wasm_bindgen]
 pub struct Universe {
     width: u32,
     height: u32,
