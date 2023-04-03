@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
+<head>
     <link href="/dist/app.css" rel="stylesheet">
     <meta charset="utf-8">
     <title>Game of Life</title>
-  </head>
-  <body class="w-full">
-  <div class="btn-group">
-    <button class="btn btn-primary" onclick="stopResumeAnimation();">Stop/Resume</button>
-    <button class="btn btn-primary" onclick="oneStep();">Step</button>
-  </div>
-  <div class="flex absolute w-full h-full items-center justify-center">
-    <canvas class="w-2/5" id="game-of-life-canvas"></canvas>
-    <script src="./bootstrap.js"></script>
-  </div>
-  </body>
+</head>
+<body>
+<div class="flex flex-col items-center gap-2 my-2">
+    <div class="btn-group" id="app" v-cloak>
+        <button class="btn btn-primary btn-sm" @click="stopOrResume()">{{ stopOrResumeButtonText }}</button>
+        <button class="btn btn-primary btn-sm" :disabled="!stopped" @click="singleStep()">Step forward</button>
+    </div>
+    <div class="flex w-full h-full items-center justify-center">
+        <canvas class="w-2/5" id="game-of-life-canvas"></canvas>
+        <script src="./bootstrap.js"></script>
+    </div>
+</div>
+</body>
 </html>
