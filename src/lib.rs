@@ -46,20 +46,12 @@ impl Universe {
                 let live_neighbors = self.live_neighbor_count(row, col);
 
                 let next_cell = match (cell, live_neighbors) {
-                    // Rule 1: Any live cell with fewer than two live neighbours
-                    // dies, as if caused by underpopulation.
-                    (true, x) if x < 2 => false,
-                    // Rule 2: Any live cell with two or three live neighbours
-                    // lives on to the next generation.
+                    // live cells with 2 or 3 live neighbors survive
                     (true, 2) | (true, 3) => true,
-                    // Rule 3: Any live cell with more than three live
-                    // neighbours dies, as if by overpopulation.
-                    (true, x) if x > 3 => false,
-                    // Rule 4: Any dead cell with exactly three live neighbours
-                    // becomes a live cell, as if by reproduction.
+                    // dead cells with 3 live neighbors become alive
                     (false, 3) => true,
-                    // All other cells remain in the same state.
-                    (otherwise, _) => otherwise,
+                    // all other cells die or stay dead
+                    (_, _) => false,
                 };
 
                 next.set(idx, next_cell);
